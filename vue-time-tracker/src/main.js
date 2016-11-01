@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
-import Hello from './components/Hello.vue'
+import Home from './components/Home.vue'
+import TimeEntries from './components/TimeEntries.vue'
+import LogTime from './components/LogTime.vue'
 
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
@@ -15,9 +17,19 @@ const router = new VueRouter({
   mode: 'history',
   base: __dirname,
   routes: [
-    { path: '/hello', component: Hello },
-    { path: '/', component: App },
-    { path: '*', redirect: '/hello' }
+    { path: '/',
+      component: App,
+      children: [
+        { path: '', component: Home },
+        { path: 'time-entries',
+          component: TimeEntries,
+          children: [
+            { path: 'log-time', component: LogTime }
+          ]
+        }
+      ]
+    },
+    { path: '*', redirect: '/' }
   ]
 })
 
